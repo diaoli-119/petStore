@@ -1,0 +1,337 @@
+{
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {
+			"ex":{
+				"name":"ex",
+				"in": "query",
+				"description":"An open API documentation for pet store management",
+				"schema": {
+					"type": "string"
+				}
+			}
+		},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"Inventory":{
+				"properties":{
+					"dog":{
+						"type": "string"
+					},
+					"cat":{
+						"type": "string"
+					},
+					"rabbit":{
+						"type": "string"
+					}
+				},
+				"required": [],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Pet": {
+				"properties": {
+						"id": {
+								"type": "number",
+								"format": "double"
+						},
+						"name": {
+								"type": "string"
+						},
+						"dateOfBirth": {
+								"type": "string"
+						},
+						"species": {
+								"type": "string"
+						}
+				},
+				"required": [
+						"id",
+						"name",
+						"dateOfBirth",
+						"species"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Pick_Pet.id-or-name-or-dateOfBirth-or-species_": {
+				"properties": {
+					"id":{
+						"type":"number",
+						"format":"double"
+					},
+					"name": {
+							"type": "string"
+					},
+					"dateOfBirth": {
+							"type": "string"
+					},
+					"species": {
+							"type": "string"
+					}
+				},
+				"required": [
+						"name",
+						"dateOfBirth",
+						"species"
+				],
+				"type": "object",
+				"description": "The data struct of pet object"
+			},
+			"PetCreationParams": {
+				"properties": {
+					"name": {
+							"type": "string"
+					},
+					"dateOfBirth": {
+							"type": "string"
+					},
+					"species": {
+							"type": "string"
+					}
+				},
+				"required": [
+						"name",
+						"dateOfBirth",
+						"species"
+				],
+				"type": "object",
+				"description": "The data struct of pet object without id"
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+			"title": "petstore",
+			"version": "1.0.0",
+			"license": {
+					"name": "MIT"
+			},
+			"contact": {
+					"name": "Vincent Diao ",
+					"email": "vincent.diaoli@gmail.com"
+			},
+			"description":"This is a petStore API documentation"
+	},
+	"openapi": "3.0.0",
+	"paths": {
+		"/pets/{petId}": {
+			"get": {
+				"summary": "Get the information of your pet via petId",
+				"operationId": "GetPet",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+										"$ref": "#/components/parameters/ex"
+								}
+							}
+						}
+					},
+					"401":{
+						"description": "Error",
+						"content": {
+							"application/json": {
+								"schema": {
+										"$ref": "#/components/schemas/Pet"
+								}
+							}
+						}						
+					},
+					"404":{
+						"description": "Page Not Found"					
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "petId",
+						"required": true,
+						"schema": {
+								"format": "double",
+								"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "species",
+						"required": false,
+						"schema": {
+								"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "name",
+						"required": false,
+						"schema": {
+								"type": "string"
+						}
+					}
+				],
+				"tags":[
+					{
+						"name": "petStore"
+					}
+				]
+			}
+		},
+		"/pets": {
+			"post": {
+				"summary": "Create your pet instance",
+				"operationId": "CreatePet",
+				"responses": {
+						"201": {
+								"description": "Created"
+						}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+						"required": true,
+						"content": {
+								"application/json": {
+										"schema": {
+												"$ref": "#/components/schemas/PetCreationParams"
+										}
+								}
+						}
+				},
+				"tags":[
+					{
+						"name": "petStore"
+					}
+				]
+			}
+		},
+		"/pets/update/{petId}":{
+			"put":{
+				"summary": "Update the information of your pet",
+				"operationId": "UpdatePet",
+				"responses": {
+					"200": {
+						"description": "Updated",
+						"content": {
+								"application/json": {
+										"schema": {
+												"$ref": "#/components/schemas/Pet"
+										}
+								}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "petId",
+						"required": true,
+						"schema": {
+								"format": "double",
+								"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "name",
+						"required": false,
+						"schema": {
+								"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "dateOfBirth",
+						"required": false,
+						"schema": {
+								"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "species",
+						"required": false,
+						"schema": {
+								"type": "string"
+						}
+					}
+				],
+				"tags":[
+					{
+						"name": "petStore"
+					}
+				]
+			}
+		},
+		"/pets/delete/{petId}":{
+			"delete":{
+				"summary": "Delete your pet record",
+				"operationId": "DeletePet",
+				"responses": {
+					"200": {
+						"description": "Deleted",
+						"content": {
+							"application/json": {
+								"schema": {
+										"$ref": "#/components/schemas/Pet"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "petId",
+						"required": true,
+						"schema": {
+								"format": "double",
+								"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "repo",
+						"required": true,
+						"schema": {
+								"format": "string"
+						}
+					}
+				],
+				"tags":[
+					{
+						"name": "petStore"
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/",
+			"description": "Development server",
+      "variables": {
+        "username": {
+          "default": "production",
+          "description": "this value is assigned by the service provider, in this example `gigantic-server.com`"
+        },
+        "port": {
+          "enum": [
+            "8443",
+            "443"
+          ],
+          "default": "8443"
+        },
+        "basePath": {
+          "default": "v2"
+        }
+      }
+		}
+	]
+}
